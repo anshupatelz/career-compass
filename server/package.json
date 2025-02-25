@@ -1,0 +1,28 @@
+{
+  "name": "career-compass-api",
+  "version": "1.0.0",
+  "description": "Career Compass API",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anshupatelz/career-compass.git"
+  },
+  "keywords": [
+    "Career",
+    "Compass"
+  ],
+  "author": "Anshu Patel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/anshupatelz/career-compass/issues"
+  },
+  "homepage": "https://github.com/anshupatelz/career-compass#readme",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.10.2"
+  }
+}
