@@ -35,7 +35,7 @@ const userSchema = new Schema(
             minlength: 8
         },
         profile: {
-            picture: {
+            profilePicture: {
                 type: String,
                 trim: true,
                 default: 'https://res.cloudinary.com/dl4v8tj7k/image/upload/v1620832915/default-profile-picture.jpg'
