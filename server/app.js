@@ -13,13 +13,6 @@ connectDB();
 
 app.get('/', (req, res) => {
     res.json({
-        message: 'Welcome to CareerCompass. Access API via /api route',
-        avaliableRoutes: ['/api']
-    })
-});
-
-app.get('/api', (req, res) => {
-    res.json({
         message: 'Welcome to the CareerCompass API',
         avaliableVersions: ['v1'],
         latestVersion: 'v1',
@@ -27,7 +20,7 @@ app.get('/api', (req, res) => {
     });
 });
 
-app.get('/api/v1', (req, res) => {
+app.get('/v1', (req, res) => {
     res.json({
         message: 'You are using Career Compass API - Version 1',
         avaliableRoutes: ['/users']
