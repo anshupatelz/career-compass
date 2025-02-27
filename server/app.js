@@ -6,10 +6,13 @@ const app = express();
 const cors = require('cors');
 app.use(cors());
 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 // Importing config and connecting to database
 const connectDB = require('./config/db');
 connectDB();
-
 
 app.get('/', (req, res) => {
     res.json({
@@ -26,5 +29,9 @@ app.get('/v1', (req, res) => {
         avaliableRoutes: ['/users']
     });
 });
+
+// Import and use routes
+app.use('/v1/users', require('./routes/users.routes'));
+
 
 module.exports = app;
