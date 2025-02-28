@@ -9,7 +9,7 @@ const usersController = require('../controllers/users.controller');
 router.get('/', usersController.getUsers);
 router.post('/', usersController.createUser);
 router.get('/:id', usersController.getUser);
-router.put('/:id', usersController.updateUser);
+router.patch('/:id', usersController.updateUser);
 router.delete('/:id', usersController.deleteUser);
 
 // Export the routes

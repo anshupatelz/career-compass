@@ -44,7 +44,7 @@ class UserService {
     // Method for deleting a user
     static async deleteUser(id) {
         try {
-            await User.findByIdAndDelete(id);
+            return await User.findByIdAndDelete(id);
         } catch (error) {
             throw error;
         }
