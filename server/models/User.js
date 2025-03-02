@@ -2,12 +2,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto'); // Node.js built-in module for generating random tokens
+
 
 const userSchema = new Schema(
     {
         username: {
             type: String,
-            required: true,
+            // required: true,
             unique: true,
             trim: true,
             minlength: 3
@@ -65,11 +67,11 @@ const userSchema = new Schema(
             },
         },
         metaDate: {
-            created: {
+            createdAt: {
                 type: Date,
-                default: Date.now
+                default: Date.now,
             },
-            updated: {
+            updatedAt: {
                 type: Date,
                 default: Date.now
             },
@@ -82,9 +84,14 @@ const userSchema = new Schema(
                 default: Date.now
             }
         },
+        verificationToken: {
+            type: String
+        }
+
     },
 );
 
+// Hash the password before saving the user model
 userSchema.pre('save', async function (next) {
     const user = this;
     if (user.isModified('password')) {
@@ -93,12 +100,44 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
+// Update the updated date before saving the user model
+userSchema.pre('save', function (next) {
+    const user = this;
+    user.metaDate.updatedAt = Date.now();
+    next();
+});
+
+// Create a unique username based on user's name before creating the user model
+userSchema.pre('save', async function (next) {
+    const user = this;
+    const username = user.name.replace(/\s+/g, '-').toLowerCase();
+    const existingUser = await User.findOne({ username: username });
+    if (existingUser) {
+        const random = Math.floor(Math.random() * 10000);
+        user.username = `${username}-${random}`;
+    } else {
+        user.username = username;
+    }
+    next();
+});
+
+// Generate an auth token for the user
 userSchema.methods.generateAuthToken = async function () {
     const user = this;
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '7 days' });
     return token;
 };
 
+// Generate a verification token for the user
+userSchema.methods.generateVerificationToken = async function () {
+    const user = this;
+    const token = crypto.randomBytes(24).toString('hex');
+    user.verificationToken = token;
+    await user.save();
+    return token;
+};
+
+// Find user by credentials
 userSchema.statics.findByCredentials = async (email, password) => {
     const User = this;
 

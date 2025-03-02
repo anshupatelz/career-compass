@@ -32,6 +32,7 @@ app.get('/v1', (req, res) => {
 
 // Import and use routes
 app.use('/v1/users', require('./routes/users.routes'));
+app.use('/v1/auth', require('./routes/auth.routes'));
 
 
 module.exports = app;
